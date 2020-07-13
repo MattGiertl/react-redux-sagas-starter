@@ -96,11 +96,13 @@ const moviesReducer = (state = initialState, action) => {
 export default moviesReducer;
 ```
 
-## Run the app
+## Installation
+
 ### Requirements
 * NodeJS
 * Yarn
 
+### Run the app
 ```js
 cd react-redux-sagas-starter // go to project root
 yarn // install packages
