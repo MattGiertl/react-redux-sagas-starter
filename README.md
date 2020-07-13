@@ -1,68 +1,111 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React starter with redux and sagas (epics).
 
-## Available Scripts
+## Principle
+The app uses Atomic Design and Redux workflow with sagas.
 
-In the project directory, you can run:
+## Basic Workflow:
+1. The page (screen) dispatches an action.
+2. A saga listens for this specific action and does the following:
+  * fetches the movie list.
+  * dispatches a success action, which is a function that contains the movies in the payload.
+3. The success action goes to the reducer, where it updates the state with the data in its payload.
+4. Select the data from the reducer in a page component using selectors (env. objects / observed).
 
-### `yarn start`
+### Actions
+Actions are functions that contain a type and an optional payload.
+They are being dispatched on page (screen) load or upon a user interaction.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+// Action definition
+  export const fetchMovies = () => ({
+    type: actionTypes.fetchMovies,
+  });
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `yarn test`
+  // Fetch Movies when the page loads
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Sagas - Epics
+Sagas are used to handle side-effects of an interaction.
+They are implemented as a try-catch block.
+Things that are handled here include:
+  * API actions are being performed here (get/post...)
+  * Push notification dispatchment
+ Always send a success action in the end, so the UI stops loading and updated the state with the data form the API.
+ Handle errors in the catch block and send a failure action
+ 
+ ```
+ export function* fetchMovies() {
+  try {
+    const { data } = yield endpoints.movies.getPopular();
+    yield put(fetchMoviesSuccess(data.results));
+  } catch (error) {
+    yield put(fetchMoviesFailure());
+  }
+}
+ ```
 
-### `yarn build`
+### Reducers
+Reducers are functions that take two arguments: an initial state and an action and returns an updated state.
+It contains a switch case which updates the state depending on the action.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+import { actionTypes } from "./actions";
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+export const initialState = {
+  movies: [],
+  isLoading: false,
+  error: false,
+};
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const moviesReducer = (state = initialState, action) => {
+  switch (action.type) {
 
-### `yarn eject`
+    case actionTypes.fetchMovies:
+      return {
+        ...state,
+        isLoading: true,
+      };
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    case actionTypes.fetchMoviesSuccess:
+      const { movies } = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        movies,
+      };
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    case actionTypes.fetchMoviesFailure:
+      return {
+        ...state,
+        isLoading: false,
+        error: true,
+      };
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    default:
+      return state;
+  }
+};
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+export default moviesReducer;
+```
 
-## Learn More
+## Run the app
+### Requirements
+* NodeJS
+* Yarn
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+cd react-redux-sagas-starter // go to project root
+yarn // install packages
+yarn start // run the app
+```
+The app will run on `localhost:3000`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Terminology
+* Page - Screen
+* Selector - @EnvironmentObject / @ObservedObject
+* Saga - Epic
