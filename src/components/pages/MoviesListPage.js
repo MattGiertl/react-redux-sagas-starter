@@ -10,10 +10,12 @@ const MoviesListPage = () => {
 
   const dispatch = useDispatch();
 
+  // Fetch Movies when the page loads
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
 
+  // Pass the movies as a prop/argument
   return <MoviesListTemplate movies={movies} />;
 };
 

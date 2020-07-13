@@ -13,6 +13,7 @@ const MoviesListTemplate = ({ movies }) => {
           justifyContent: "center",
         }}
       >
+        {/* Rendering all the movies here into a component called Card */}
         {movies.map(({ id, original_title, overview, backdrop_path }) => (
           <Card
             id={id}
