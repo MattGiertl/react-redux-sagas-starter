@@ -13,7 +13,7 @@ A React template implementing Redux and Sagas, structured with Atomic Design.
 Actions are functions that contain a type and an optional payload.
 They are being dispatched on page (screen) load or upon a user interaction.
 
-```
+```js
 // Action definition
   export const fetchMovies = () => ({
     type: actionTypes.fetchMovies,
@@ -35,7 +35,7 @@ Things that are handled here include:
  Always send a success action in the end, so the UI stops loading and updated the state with the data form the API.
  Handle errors in the catch block and send a failure action
  
- ```
+ ```javascript
  export function* fetchMovies() {
   try {
     const { data } = yield endpoints.movies.getPopular();
