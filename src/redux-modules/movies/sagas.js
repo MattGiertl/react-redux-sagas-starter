@@ -4,6 +4,8 @@ import {
   actionTypes,
   fetchMoviesFailure,
   fetchMoviesSuccess,
+  fetchMovieSuccess,
+  fetchMovieFailure,
 } from "../movies/actions";
 
 export function* fetchMovies() {
@@ -12,7 +14,17 @@ export function* fetchMovies() {
     yield put(fetchMoviesSuccess(data.results));
   } catch (error) {
     yield put(fetchMoviesFailure());
-    console.log("error", error);
+  }
+}
+
+export function* fetchMovie(action) {
+  try {
+    const { id } = action.payload;
+    const { data } = yield endpoints.movies.getMovie(id);
+
+    yield put(fetchMovieSuccess(data));
+  } catch (error) {
+    yield put(fetchMovieFailure());
   }
 }
 
@@ -20,4 +32,8 @@ export function* watchFetchMovies() {
   yield takeEvery(actionTypes.fetchMovies, fetchMovies);
 }
 
-export default [watchFetchMovies()];
+export function* watchFetchMovie() {
+  yield takeEvery(actionTypes.fetchMovie, fetchMovie);
+}
+
+export default [watchFetchMovies(), watchFetchMovie()];

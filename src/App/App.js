@@ -1,12 +1,14 @@
 import React from "react";
-import MoviesListPage from "../components/pages/MoviesListPage";
-import { Provider } from "react-redux";
 import store from "../redux-config/store";
+
+import { Provider } from "react-redux";
+
+import Routes from "./Routes";
 
 function App() {
   return (
     <Provider store={store().store}>
-      <MoviesListPage />
+      <Routes />
     </Provider>
   );
 }

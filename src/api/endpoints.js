@@ -7,11 +7,13 @@ const endpointNames = {
   movies: {
     getPopular: (apiKey) =>
       `/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`,
+    getMovie: (id, apiKey) => `/movie/${id}?api_key=${apiKey}`,
   },
 };
 
 export const endpoints = {
   movies: {
     getPopular: () => call(api(), endpointNames.movies.getPopular(apiKey)),
+    getMovie: (id) => call(api(), endpointNames.movies.getMovie(id, apiKey)),
   },
 };

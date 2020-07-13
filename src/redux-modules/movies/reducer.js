@@ -1,6 +1,7 @@
 import { actionTypes } from "./actions";
 
 export const initialState = {
+  movie: {},
   movies: [],
   isLoading: false,
   error: false,
@@ -8,6 +9,27 @@ export const initialState = {
 
 const moviesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.fetchMovie:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case actionTypes.fetchMovieSuccess:
+      // const { movie } = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        movie: action.payload.movie,
+      };
+
+    case actionTypes.fetchMovieFailure:
+      return {
+        ...state,
+        isLoading: false,
+        error: true,
+      };
+
     case actionTypes.fetchMovies:
       return {
         ...state,
