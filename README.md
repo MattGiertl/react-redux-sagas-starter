@@ -49,6 +49,8 @@ Things that are handled here include:
 ### Reducers
 Reducers are functions that take two arguments: an initial state and an action and returns an updated state.
 It contains a switch case which updates the state depending on the action.
+*Note*: Redux is immutable by principle, so you always return a new copy of the state and replace the old one with it.
+You never mutate the state directly
 
 ```js
 import { actionTypes } from "./actions";
