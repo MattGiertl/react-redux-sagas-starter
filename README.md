@@ -1,9 +1,7 @@
-React starter with redux and sagas (epics).
+# React-redux-sagas-starter
+A React template implementing Redux and Sagas, structured with Atomic Design.
 
-## Principle
-The app uses Atomic Design and Redux workflow with sagas.
-
-## Basic Workflow:
+## Principle & workflow
 1. The page (screen) dispatches an action.
 2. A saga listens for this specific action and does the following:
   * fetches the movie list.
