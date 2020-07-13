@@ -35,7 +35,7 @@ Things that are handled here include:
  Always send a success action in the end, so the UI stops loading and updated the state with the data form the API.
  Handle errors in the catch block and send a failure action
  
- ```javascript
+ ```js
  export function* fetchMovies() {
   try {
     const { data } = yield endpoints.movies.getPopular();
@@ -50,7 +50,7 @@ Things that are handled here include:
 Reducers are functions that take two arguments: an initial state and an action and returns an updated state.
 It contains a switch case which updates the state depending on the action.
 
-```
+```js
 import { actionTypes } from "./actions";
 
 export const initialState = {
@@ -96,7 +96,7 @@ export default moviesReducer;
 * NodeJS
 * Yarn
 
-```
+```js
 cd react-redux-sagas-starter // go to project root
 yarn // install packages
 yarn start // run the app
