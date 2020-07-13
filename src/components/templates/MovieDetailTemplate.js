@@ -20,7 +20,9 @@ const MovieDetailTemplate = ({ movie, isLoading, error }) => {
           NOW LOADING...
         </div>
       )}
+
       {error && <div>ERROR LOADING MOVIE</div>}
+
       {movie && (
         <div>
           <NavLink
