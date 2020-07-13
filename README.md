@@ -1,7 +1,10 @@
 # React-redux-sagas-starter
 A React template implementing Redux and Sagas, structured with Atomic Design.
 
+
 ## Principle & workflow
+<div style="text-align:center"><img src="https://i.ytimg.com/vi/IOTEAunY8ZI/maxresdefault.jpg" alt="Redux Saga Diagram" /></div>
+
 1. The page (screen) dispatches an action.
 2. A saga listens for this specific action and does the following:
   * fetches the movie list.
